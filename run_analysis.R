@@ -81,6 +81,8 @@ out <- aggregate(. ~ subject + activity, data, mean)
 out <- out[order(out$subject, out$activity), ]
 write.table(out, file = "tidydata.txt", row.name = FALSE, quote = FALSE)
 
+tidydata <- read.table(file.path(getwd(), "" , "tidydata.txt"),  header = FALSE)
+
 
 # remove unnecessary tables to save memory
 rm(
@@ -97,7 +99,7 @@ rm(
     features,
     tmp,
     out,
-    data,codebook_data
+    data
 )
 
 
