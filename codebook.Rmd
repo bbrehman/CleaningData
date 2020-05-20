@@ -31,7 +31,7 @@ Now, we're preparing our data for the codebook.
 
 ```{r prepare_codebook}
 library(codebook)
-codebook_data <- codebook::bfi
+codebook_data <-  rio::import("tidydata.csv")
 # to import an SPSS file from the same folder uncomment and edit the line below
 # codebook_data <- rio::import("mydata.sav")
 # for Stata
