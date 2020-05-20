@@ -1,5 +1,3 @@
-
-
 # Download and extract Zip File
 filename <- "UCI HAR Dataset.zip"
 dataURL <-
@@ -21,7 +19,7 @@ files <- list.files(dataPath, recursive = TRUE)
 print(files)
 
 
-#merge train data
+# prepare train data
 trainValues <-
     read.table(file.path(dataPath, "train" , "X_train.txt"), header = FALSE)
 trainActivities <-
@@ -29,7 +27,7 @@ trainActivities <-
 trainSubjects <-
     read.table(file.path(dataPath, "train" , "subject_train.txt"), header = FALSE)
 
-# test data
+# prepare test data
 testValues <-
     read.table(file.path(dataPath, "test" , "X_test.txt"), header = FALSE)
 testActivities <-
@@ -37,13 +35,13 @@ testActivities <-
 testSubjects <-
     read.table(file.path(dataPath, "test" , "subject_test.txt"), header = FALSE)
 
-#train data
+#Bind train and test data
 values <- rbind(trainValues, testValues)
 activities <- rbind(trainActivities, testActivities)
 subjects <- rbind(trainSubjects, testSubjects)
 
 
-#column names
+# Labels for merged Data: column names
 activityLabels <-
     read.table(file.path(dataPath, "" , "activity_labels.txt"), header = FALSE)
 activityLabels$V2 <-  as.character(activityLabels$V2)
@@ -62,22 +60,6 @@ data <- cbind(values, tmp)
 # map activity descritpion
 data$activity <-
     factor(data$activity, levels = activityLabels[, 1], labels = activityLabels[, 2])
-
-
-# remove unnecessary tables to save memory
-rm(
-    trainValues,
-    trainActivities,
-    trainSubjects,
-    testValues,
-    testActivities,
-    testSubjects,
-    values,
-    activities,
-    subjects,
-    activityLabels,
-    features
-)
 
 
 
@@ -100,9 +82,23 @@ out <- out[order(out$subject, out$activity), ]
 write.table(out, file = "tidydata.txt", row.name = FALSE, quote = FALSE)
 
 
-#printout tidydata
-tidydata <-
-    read.table(file.path(getwd(), "" , "tidydata.txt"),
-               header = FALSE)
-print(str(tidydata))
+# remove unnecessary tables to save memory
+rm(
+    trainValues,
+    trainActivities,
+    trainSubjects,
+    testValues,
+    testActivities,
+    testSubjects,
+    values,
+    activities,
+    subjects,
+    activityLabels,
+    features,
+    tmp,
+    out,
+    data,codebook_data
+)
+
+
 
